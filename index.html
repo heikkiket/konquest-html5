@@ -26,26 +26,29 @@
   
     <div id="top-bar" class="row">
       <form name="tablecreator" action="">
-      <div class="row">
         <div class="large-4 columns">
             <input type="text" name="x" value="16" />
         </div>
         <div class="large-4 columns">
             <input type="text" name="y" value="16" />
         </div>
-        <div class="large-4 columns end">
+        <div class="large-4 columns">
           <input class="button tiny" type="button" value="generoi" onclick="createTable();">
         </div>
-      </div>
       </form>
     </div>
     
     <div class="row">
-      <table cellspacing="0" cellpadding="0" id="spacegrid">
-        <script type="text/javascript">
-          createTable();
-        </script>
-      </table>
+      <div class="large-10 columns">
+        <table cellspacing="0" cellpadding="0" id="spacegrid">
+          <script type="text/javascript">
+            createTable();
+          </script>
+        </table>
+      </div>
+      <div class="large-2 columns" id="statusdisplay">
+        <p>Status</p>
+      </div>
     </div>
   </div>
   
