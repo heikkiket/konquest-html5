@@ -1,0 +1,35 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Konquest-HTML5</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="">
+  <meta name="author" content="Heikki Ketoharju">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <script src="js/scripts.js"></script>
+  <script src="js/table.js"></script>
+  <div id="content">
+  <form name="tablecreator" action="">
+  <input type="text" name="x" value="5" />
+  <input type="text" name="y" value="5" />
+  <input type="button" value="generoi" onclick="createTable();">
+  </form>
+  <table cellspacing="0" cellpadding="0" id="spacegrid">
+    <script type="text/javascript">
+      createTable();
+    </script>
+  </table>
+  </div>
+</body>
+</html>

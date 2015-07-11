@@ -1,0 +1,35 @@
+{"konquest-html5": {
+  "planet":    
+    {
+      "planet-id": 0001,
+      "planet-name": "Uranus",
+      "attack-factor": 0.3-0.89,
+      "production-rate": 5-13,
+      "planet-colour": "#00FF00",
+      "planet-type": "military,mining,tech,commerce",
+      "owner": 0002,
+      "x": 0-n,
+      "y": 0-n
+      },
+  "fleet":
+    {
+      "fleet-id": 0004,
+      "owner": 0002,
+      "attack-factor": 0.3-0.89,
+      "origin": 0001,
+      "destination": 0003,
+      "departure-time": "Turn 2",
+      "x": 4,
+      "y": 5,
+      "active": true,
+      },
+  "player":
+    {
+      "player-id": 0002,
+      "player-name": "Heikki",
+      "ships-produced": 333,
+      "fleets-launched": 14,
+      "others-ships-destroyed": 150,
+      "own-ships-destroyed": 240,
+      },
+ }}
