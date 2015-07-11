@@ -5,6 +5,7 @@
       "planet-name": "Uranus",
       "attack-factor": 0.3-0.89,
       "production-rate": 5-13,
+      "ships": 20,
       "planet-colour": "#00FF00",
       "planet-type": "military,mining,tech,commerce",
       "owner": 0002,
