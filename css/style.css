@@ -28,6 +28,10 @@ body {
   background: #363;
 }
 
+#spacegrid td img {
+  width:100%;
+}
+
 #top-bar {
   margin-top: 0.5em;
 }
