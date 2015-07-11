@@ -21,17 +21,32 @@
 <body>
   <script src="js/scripts.js"></script>
   <script src="js/table.js"></script>
+  
   <div id="content">
-  <form name="tablecreator" action="">
-  <input type="text" name="x" value="16" />
-  <input type="text" name="y" value="16" />
-  <input type="button" value="generoi" onclick="createTable();">
-  </form>
-  <table cellspacing="0" cellpadding="0" id="spacegrid">
-    <script type="text/javascript">
-      createTable();
-    </script>
-  </table>
+  
+    <div id="top-bar" class="row">
+      <form name="tablecreator" action="">
+      <div class="row">
+        <div class="large-4 columns">
+            <input type="text" name="x" value="16" />
+        </div>
+        <div class="large-4 columns">
+            <input type="text" name="y" value="16" />
+        </div>
+        <div class="large-4 columns end">
+          <input class="button tiny" type="button" value="generoi" onclick="createTable();">
+        </div>
+      </div>
+      </form>
+    </div>
+    
+    <div class="row">
+      <table cellspacing="0" cellpadding="0" id="spacegrid">
+        <script type="text/javascript">
+          createTable();
+        </script>
+      </table>
+    </div>
   </div>
   
   <script src="js/vendor/jquery.js"></script>
