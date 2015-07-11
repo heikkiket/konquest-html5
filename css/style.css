@@ -1,5 +1,6 @@
 body {
     background: #333;
+    color: #aaa;
 }
 
 #spacegrid,
@@ -34,6 +35,11 @@ body {
 
 #top-bar {
   margin-top: 0.5em;
+}
+
+#statusdisplay p,
+#statusdisplay ul {
+  font-size: 0.8rem;
 }
 
 /* Media queries
