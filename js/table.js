@@ -8,9 +8,6 @@ function createTable() {
   {
     table.removeChild(table.firstChild);
   }
-  
-  test = document.createElement("tbody");
-  table.appendChild(test);
 
 
   for ( var i = 0; i < y; i++) {
