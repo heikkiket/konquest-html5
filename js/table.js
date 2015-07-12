@@ -4,6 +4,7 @@ function createTable() {
     
   var table = document.getElementById("spacegrid");
   
+  //empty table
   while(table.firstChild)
   {
     table.removeChild(table.firstChild);
@@ -21,4 +22,6 @@ function createTable() {
     
     table.appendChild(row);
   }
+  
+  drawPlanets();
 }

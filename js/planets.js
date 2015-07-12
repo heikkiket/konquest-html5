@@ -10,7 +10,7 @@ function drawPlanets() {
     $( "#spacegrid tr:nth-child(" + planet.y +
     ") td:nth-child(" + planet.x + ")" )
     .append('<span data-tooltip aria-haspopup="true" class="has-tip" title="'
-    + 'Name :' + planet.name + '<br />Ships: ' + planet.ships + '<br />Kill percent: ' + planet.killPercent
+    + '<b>Name:</b> ' + planet.name + '<br /><b>Ships:</b> ' + planet.ships + '<br /><b>Kill percent:</b> ' + planet.killPercent
     + '">'
     + '<img src="img/planet1.png"'
     + '" onmouseover="showPlanetInfo(\''+key+'\')" onmouseout="hidePlanetInfo();" /></span>');
