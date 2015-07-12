@@ -8,10 +8,34 @@
         "productionRate": 5,
         "ships": 20,
         "planetColour": "#00FF00",
-        "planetType": "military,mining,tech,commerce",
+        "planetType": "military",
         "owner": "c2",
         "x": 4,
         "y": 4
+      },
+    "p2":
+      {
+        "name": "Neptunus",
+        "killPercent": 0.75,
+        "productionRate": 13,
+        "ships": 15,
+        "planetColour": "#00FF00",
+        "planetType": "mining",
+        "owner": "c2",
+        "x": 10,
+        "y": 5
+      },
+    "p3":
+      {
+        "name": "Opullus",
+        "killPercent": 0.89,
+        "productionRate": 6,
+        "ships": 30,
+        "planetColour": "#00FF00",
+        "planetType": "military,mining,tech,commerce",
+        "owner": "c2",
+        "x": 8,
+        "y": 9
       }
     },
   "fleets":
