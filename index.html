@@ -45,6 +45,12 @@
         </table>
       </div>
       <div class="large-2 columns" id="statusdisplay">
+        <div id="request">
+          <h3 style="color: #aaa;">An AJAX request test</h3>
+          <button class="button tiny" id="requestButton">Make a request</a>
+          <button class="button tiny" id="clearButton" onclick="emptyRequest();">Clear</button>
+          <div id="result"></div>
+        </div>
         <div id="planetinfo" class="hide">
           <p>Planet info</p>
           <ul>
@@ -56,13 +62,55 @@
         </div>
       </div>
     </div>
-  </div>
   
   <script src="js/vendor/jquery.js"></script>
   <script src="js/foundation.min.js"></script>
   <script>
     $(document).foundation();
     createTable();
+    (function() {
+      var httpRequest;
+      document.getElementById("requestButton").onclick = function() { makeRequest('test.txt'); };
+
+      function makeRequest(url) {
+        if(window.XMLHttpRequest) { //Mozilla, Safari, ...
+          httpRequest = new XMLHttpRequest();
+        } else if (window.ActiveXObject) { // IE
+          try {
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+          }
+          catch(e) {
+            try {
+              httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e) {}
+          }
+        }
+
+        if (!httpRequest) {
+          console.log("Cannot create XMLHTTP instance");
+          return false;
+        }
+        httpRequest.onreadystatechange = alertContents;
+        httpRequest.open('GET', url);
+        httpRequest.send();
+      }
+
+      function alertContents() {
+        if (httpRequest.readyState === 4) {
+          if (httpRequest.status === 200) {
+            $( "#result" ).html(httpRequest.responseText);
+          } else {
+            console.log("There was a problem with the request");
+          }
+        }
+      }
+
+    })();
+
+    function emptyRequest() {
+        $( "#result" ).empty();
+    }
   </script>
 </body>
 </html>
