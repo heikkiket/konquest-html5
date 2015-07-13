@@ -32,10 +32,22 @@
         "productionRate": 6,
         "ships": 30,
         "planetColour": "#00FF00",
-        "planetType": "military,mining,tech,commerce",
+        "planetType": "tech",
         "owner": "c2",
         "x": 8,
         "y": 9
+      },
+    "p2":
+      {
+        "name": "Testunus",
+        "killPercent": 0.63,
+        "productionRate": 15,
+        "ships": 2,
+        "planetColour": "#00FF00",
+        "planetType": "commerce",
+        "owner": "c2",
+        "x": 10,
+        "y": 5
       }
     },
   "fleets":
@@ -61,6 +73,14 @@
           "fleetsLaunched": 14,
           "othersShipsDestroyed": 150,
           "ownShipsDestroyed": 240
+        },
+      "c2":
+        {
+          "name": "Liisa",
+          "shipsProduced": 666,
+          "fleetsLaunched": 18,
+          "othersShipsDestroyed": 190,
+          "ownShipsDestroyed": 340
         }
       }
  }
