@@ -28,12 +28,8 @@ function initScreen()
 
 //------------------ In every turn ------------------------------
 
-function updateJSON()
-{
-  //TODO: this function updates JSON via AJAX routine
-}
 
-function newTurn()
+function newTurn(konquestData)
 {
   //This is run every time when new turn button is pressed.
   
@@ -80,7 +76,7 @@ function drawGrid() {
       row.appendChild(td);
     }
     
-    table.appendChild(row);
+    grid.appendChild(row);
   }
   
 }

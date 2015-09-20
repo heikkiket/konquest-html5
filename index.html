@@ -34,7 +34,7 @@
             <input type="text" name="y" value="16" />
         </div>
         <div class="large-4 columns">
-          <input class="button tiny" type="button" value="generoi" onclick="createTable();">
+          <input class="button tiny" type="button" value="generoi" onclick="drawGrid();">
         </div>
       </form>
     </div>
@@ -49,6 +49,8 @@
           <h3 style="color: #aaa;">An AJAX request test</h3>
           <button class="button tiny" id="requestButton">Make a request</a>
           <button class="button tiny" id="clearButton" onclick="emptyRequest();">Clear</button>
+          <button class="button tiny" id="clearButton" onclick="console.log(konquestData); drawPlanets();">Get JSON</button>
+
           <div id="result"></div>
         </div>
         <div id="planetinfo" class="hide">
@@ -67,7 +69,19 @@
   <script src="js/foundation.min.js"></script>
   <script>
     $(document).foundation();
-    createTable();
+    drawGrid();
+    
+    //Load data
+    var konquestData = {};
+    var url = "https://heikkiket.kapsi.fi/"
+            + "konquest-html5/php_server/"
+            + "g/asdasdasd"
+            + "/read";
+    $.getJSON(url, function(json) {
+      konquestData = json;
+    });
+    
+    //Create test AJAX request
     (function() {
       var httpRequest;
       document.getElementById("requestButton").onclick = function() { makeRequest('test.txt'); };
