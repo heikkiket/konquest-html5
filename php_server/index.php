@@ -15,7 +15,7 @@ switch($module) {
     //game
     game($parameters);
     break;
-  
+
   case "help":
     //help functions
     break;
