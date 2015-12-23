@@ -43,7 +43,22 @@ function game($parameters) {
       $stmt->execute();
 
       date("c", time());
+        
+        /*
+        $konquest_json = $_GET['json_data']
+        json_decode($konquest_json)
 
+        foreach($konquest_json) as $table => $tableContents:
+          foreach $tableContents as $rowName => $row
+              if row exists UPDATE else INSERT => Save to $operation
+              foreach $row as $cell => $data
+                collect all the data to the one expression
+
+                put $operation variable to the beginning
+                UPDATE $table SET $cell = $data WHERE gameid IS $gameid
+                INSERT INTO $table ($cell, gameid) VALUES ($data, $gameid)
+
+        */
       break;
     case "init":
       $db->exec("CREATE TABLE game(gameid, date_started)");

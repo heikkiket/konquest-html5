@@ -93,7 +93,8 @@ function drawPlanets() {
     + '<b>Name:</b> ' + planet.name + '<br /><b>Ships:</b> ' + planet.ships + '<br /><b>Kill percent:</b> ' + planet.killPercent
     + '">'
     + '<img src="img/planet1.png"'
-    + '" onmouseover="showPlanetInfo(\''+key+'\')" onmouseout="hidePlanetInfo();" /></span>');
+    + '" onclick="unselectAll(); selectPlanet(\''+key+'\')" /></span>')
+    .addClass("planet id-" + key);
   });
   
   //Ask Foundation to redraw tooltips
@@ -103,19 +104,23 @@ function drawPlanets() {
 
 //------------------ During the game -------------------------------
 
-function showPlanetInfo(planetId) {
+function selectPlanet(planetId) {
   
-  $( "#planetinfo .name" ).html("<b>Name:</b> " + konquestData.planets[planetId].name);
-  $( "#planetinfo .killPercent" ).html("<b>Kill percent:</b> " + konquestData.planets[planetId].killPercent);
-  $( "#planetinfo .productionRate" ).html("<b>Production rate:</b> " + konquestData.planets[planetId].productionRate);
-  $( "#planetinfo .ships" ).html("<b>Amount of ships:</b> " + konquestData.planets[planetId].ships);
-  
-  
-  $( "#planetinfo" ).show();
+  $( "#planetinfo .name" ).html(konquestData.planets[planetId].name);
+  $( "#planetinfo .killPercent" ).html(konquestData.planets[planetId].killPercent);
+  $( "#planetinfo .productionRate" ).html(konquestData.planets[planetId].productionRate);
+  $( "#planetinfo .ships" ).html(konquestData.planets[planetId].shipsAmount);
+  $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name)
+
+ $( "#spacegrid .id-" + planetId).addClass("selected")
 }
 
-function hidePlanetInfo() {
-  $( "#planetinfo" ).hide();
+function unselectAll() {
+  $( "#spacegrid .planet").removeClass("selected");
+}
+
+function prepareFleet(planetId) {
+  $( "#preparefleet").toggle();
 }
 
 //TODO: Fleet launching needs a gui and maybe some helper functions also.

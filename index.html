@@ -20,111 +20,95 @@
 
 <body>
   <script src="js/scripts.js"></script>
-  <script src="js/table.js"></script>
-  <script src="js/planets.js"></script>
   
   <div id="content">
   
-    <div id="top-bar" class="row">
-      <form name="tablecreator" action="">
-        <div class="large-4 columns">
-            <input type="text" name="x" value="16" />
-        </div>
-        <div class="large-4 columns">
-            <input type="text" name="y" value="16" />
-        </div>
-        <div class="large-4 columns">
-          <input class="button tiny" type="button" value="generoi" onclick="drawGrid();">
-        </div>
-      </form>
-    </div>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h4><a href="#">Galaktinen valloitus!</a></h4>
+        </li>
+      </ul>
+      
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <li class="has-dropdown"><a href="#">Työkalut</a>
+            <ul class="dropdown">
+              <li><a href="#">Mittaa etäisyys</a></li>
+              <li class="active"><a href="#">Näytä tilastot</a></li>
+            </ul></li>
+          <li class="active">
+            <a href="#">Seuraava vuoro</a>
+          </li>
+        </ul>
+      </section>
+    </nav>
     
     <div class="row">
       <div class="large-10 columns">
         <table cellspacing="0" cellpadding="0" id="spacegrid">
         </table>
+        <div class="row">
+        Ruudukon koko
+        </div>
+        <div class="row">
+          <form name="tablecreator" action="">
+            <div class="large-4 columns">
+                <input type="text" name="x" value="16" />
+            </div>
+            <div class="large-4 columns">
+                <input type="text" name="y" value="16" />
+            </div>
+            <div class="large-4 columns">
+              <input class="button tiny" type="button" value="generoi" onclick="drawGrid();">
+            </div>
+          </form>
+        </div>
       </div>
       <div class="large-2 columns" id="statusdisplay">
         <div id="request">
-          <h3 style="color: #aaa;">An AJAX request test</h3>
-          <button class="button tiny" id="requestButton">Make a request</a>
-          <button class="button tiny" id="clearButton" onclick="emptyRequest();">Clear</button>
-          <button class="button tiny" id="clearButton" onclick="console.log(konquestData); drawPlanets();">Get JSON</button>
+<!--           <button class="button tiny" id="clearButton" onclick="drawGrid(); drawPlanets();">Get JSON</button> -->
 
-          <div id="result"></div>
-        </div>
-        <div id="planetinfo" class="hide">
-          <p>Planet info</p>
+        <div id="planetinfo">
+          <h3>Planeetta: <span class="name"></span></h3>
           <ul>
-            <li class="name"></li>
-            <li class="killPercent"></li>
-            <li class="productionRate"></li>
-            <li class="ships"></li>
+            <li>Tappoprosentti: <span class="killPercent"></span></li>
+            <li>Tuotanto: <span class="killPercent"></span></li>
+            <li>Alusten lukumäärä: <span class="ships"></span></li>
           </ul>
+          <button class="button tiny" onclick="prepareFleet();">Lähetä aluksia</button>
+          <div id="preparefleet" class="hide">
+            <h4>Lähetä aluksia</h4>
+            <p><strong>Lähtöplaneetta:</strong> <span class="departurePlanet"></span></p>
+            <p class="selectDestination show">Valitse määränpää</p>
+            <p class="destination hide"><strong>Valittu määränpää:</strong><span class="destinationPlanet"></span></p>
+            <submit class="button tiny">Lähetä!</submit>
+          </div>
         </div>
       </div>
     </div>
   
   <script src="js/vendor/jquery.js"></script>
   <script src="js/foundation.min.js"></script>
+  
+  <script src="js/testdata.js"></script>
   <script>
     $(document).foundation();
     drawGrid();
-    
     //Load data
-    var konquestData = {};
-    var url = "https://heikkiket.kapsi.fi/"
-            + "konquest-html5/php_server/"
-            + "g/asdasdasd"
-            + "/read";
-    $.getJSON(url, function(json) {
-      konquestData = json;
-    });
     
-    //Create test AJAX request
-    (function() {
-      var httpRequest;
-      document.getElementById("requestButton").onclick = function() { makeRequest('test.txt'); };
+//     var konquestData = {};
+//     var url = "https://heikkiket.kapsi.fi/"
+//             + "konquest-html5/php_server/"
+//             + "g/asdasdasd"
+//             + "/read";
+//     $.getJSON(url, function(json) {
+//       konquestData = json;
+//     });
 
-      function makeRequest(url) {
-        if(window.XMLHttpRequest) { //Mozilla, Safari, ...
-          httpRequest = new XMLHttpRequest();
-        } else if (window.ActiveXObject) { // IE
-          try {
-            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-          }
-          catch(e) {
-            try {
-              httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e) {}
-          }
-        }
-
-        if (!httpRequest) {
-          console.log("Cannot create XMLHTTP instance");
-          return false;
-        }
-        httpRequest.onreadystatechange = alertContents;
-        httpRequest.open('GET', url);
-        httpRequest.send();
-      }
-
-      function alertContents() {
-        if (httpRequest.readyState === 4) {
-          if (httpRequest.status === 200) {
-            $( "#result" ).html(httpRequest.responseText);
-          } else {
-            console.log("There was a problem with the request");
-          }
-        }
-      }
-
-    })();
-
-    function emptyRequest() {
-        $( "#result" ).empty();
-    }
+    drawPlanets();
   </script>
+
 </body>
 </html>

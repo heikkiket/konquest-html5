@@ -34,6 +34,14 @@ body {
   width:100%;
 }
 
+#spacegrid td:active {
+  background: #f00;
+}
+
+#spacegrid td.selected {
+background: #ECEC3C;
+}
+
 #top-bar {
   margin-top: 0.5em;
 }
@@ -41,6 +49,17 @@ body {
 #statusdisplay p,
 #statusdisplay ul {
   font-size: 0.8rem;
+}
+
+#planetinfo h1,
+#planetinfo h2,
+#planetinfo h3,
+#planetinfo h4 {
+  color: #ccc;
+}
+
+.has-tip {
+  border-bottom: none;
 }
 
 /* Media queries
