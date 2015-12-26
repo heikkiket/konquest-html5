@@ -31,6 +31,8 @@ function initScreen()
 
 function newTurn(konquestData)
 {
+  //Reset turnData{}
+  
   //This is run every time when new turn button is pressed.
   
   //Move ships
@@ -83,40 +85,60 @@ function drawGrid() {
 
 function drawPlanets() {
   
-  $.each(konquestData.planets, function(key, planet) {
-    
-    //lets draw a planet with the help of jQuery selectors
-    
-    $( "#spacegrid tr:nth-child(" + planet.y +
-    ") td:nth-child(" + planet.x + ")" )
-    .append('<span data-tooltip aria-haspopup="true" class="has-tip" title="'
-    + '<b>Name:</b> ' + planet.name + '<br /><b>Ships:</b> ' + planet.ships + '<br /><b>Kill percent:</b> ' + planet.killPercent
-    + '">'
-    + '<img src="img/planet1.png"'
-    + '" onclick="unselectAll(); selectPlanet(\''+key+'\')" /></span>')
-    .addClass("planet id-" + key);
+  $.each(konquestData.planets, function(planetId, planet) {
+    drawPlanet(planetId, planet);
   });
   
   //Ask Foundation to redraw tooltips
   $(document).foundation('tooltip', 'reflow');
-  
+}
+
+function drawPlanet(planetId, planet) {
+
+  if (typeof(planet) === 'undefined') {
+    var planet = konquestData.planets[planetId];
+    var single = true;
+  }
+
+  //lets draw a planet with the help of jQuery selectors
+  var cell = $( "#spacegrid tr:nth-child(" + planet.y +
+  ") td:nth-child(" + planet.x + ")" )
+
+  cell.html('<span data-tooltip aria-haspopup="true" class="has-tip" title="'
+  + '<b>Name:</b> ' + planet.name + '<br /><b>Ships:</b> ' + planet.shipsAmount + '<br /><b>Kill percent:</b> ' + planet.killPercent
+  + '">'
+  + '<img src="img/planet1.png"'
+  + '" onclick="selectPlanet(\''+planetId+'\')" /></span>')
+  .addClass("planet id-" + planetId)
+
+  selectedPlanets = turnData.planetSelection.selectedPlanets;
+  if(planetId == selectedPlanets.departureId || planetId == selectedPlanets.destinationId) {
+    cell.addClass("selected");
+  } else {
+    cell.removeClass("selected");
+  }
+
+  if(single) {
+    //Ask Foundation to redraw tooltips
+    $(document).foundation('tooltip', 'reflow');
+  }
 }
 
 //------------------ During the game -------------------------------
 
-function selectPlanet(planetId) {
+function showPlanetInfo(planetId) {
   
+  if(planetId == null) {
+    $( "#planetinfo").hide();
+    return;
+  }
+
+  $( "#planetinfo").show();
   $( "#planetinfo .name" ).html(konquestData.planets[planetId].name);
   $( "#planetinfo .killPercent" ).html(konquestData.planets[planetId].killPercent);
   $( "#planetinfo .productionRate" ).html(konquestData.planets[planetId].productionRate);
   $( "#planetinfo .ships" ).html(konquestData.planets[planetId].shipsAmount);
-  $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name)
-
- $( "#spacegrid .id-" + planetId).addClass("selected")
-}
-
-function unselectAll() {
-  $( "#spacegrid .planet").removeClass("selected");
+  $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name);
 }
 
 function prepareFleet(planetId) {
@@ -143,3 +165,25 @@ function backgroundStuff() {
 
 //Maybe we should group all the helper functions here? Like Toggle elements,
 //button handlers etc. Not sure if there will be many.
+
+function selectPlanet(planetId) {
+  if(turnData.planetSelection.launchingFleet == true) {
+    //launching fleet
+  } else {
+      if (turnData.planetSelection.selectedPlanets.departureId == planetId) {
+        // unselect
+        turnData.planetSelection.selectedPlanets.departureId = null;
+        showPlanetInfo();
+        drawPlanet(planetId);
+      } else {
+        //select first
+        unselectAllPlanets();
+        turnData.planetSelection.selectedPlanets.departureId = planetId;
+        showPlanetInfo(planetId);
+        drawPlanet(planetId);
+    }
+  }
+}
+function unselectAllPlanets() {
+  $( "#spacegrid .planet").removeClass("selected");
+}
