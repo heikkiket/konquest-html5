@@ -1,6 +1,6 @@
 body {
-    background: #333;
-    color: #aaa;
+    background: #555;
+    color: #ccc;
 }
 
 #spacegrid,
@@ -49,13 +49,6 @@ background: #ECEC3C;
 #statusdisplay p,
 #statusdisplay ul {
   font-size: 0.8rem;
-}
-
-#planetinfo h1,
-#planetinfo h2,
-#planetinfo h3,
-#planetinfo h4 {
-  color: #ccc;
 }
 
 .has-tip,

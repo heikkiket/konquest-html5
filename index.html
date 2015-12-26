@@ -32,6 +32,7 @@
       <section class="top-bar-section">
         <!-- Right Nav Section -->
         <ul class="right">
+          <li><a href="#" onclick="sendShips()">Lähetä laivue</a></li>
           <li class="has-dropdown"><a href="#">Työkalut</a>
             <ul class="dropdown">
               <li><a href="#">Mittaa etäisyys</a></li>
@@ -52,7 +53,7 @@
         Ruudukon koko
         </div>
         <div class="row">
-          <form name="tablecreator" action="">
+          <form name="tablecreator" action="" onsubmit="drawGrid(); return false;">
             <div class="large-4 columns">
                 <input type="text" name="x" value="16" />
             </div>
@@ -60,7 +61,7 @@
                 <input type="text" name="y" value="16" />
             </div>
             <div class="large-4 columns">
-              <input class="button tiny" type="button" value="generoi" onclick="drawGrid();">
+              <input class="button tiny" type="submit" value="generoi">
             </div>
           </form>
         </div>
@@ -69,21 +70,24 @@
         <div id="request">
 <!--           <button class="button tiny" id="clearButton" onclick="drawGrid(); drawPlanets();">Get JSON</button> -->
 
-        <div id="planetinfo">
+        <div id="planetinfo" class="hide">
           <h3>Planeetta: <span class="name"></span></h3>
           <ul>
             <li>Tappoprosentti: <span class="killPercent"></span></li>
             <li>Tuotanto: <span class="killPercent"></span></li>
             <li>Alusten lukumäärä: <span class="ships"></span></li>
           </ul>
-          <button class="button tiny" onclick="prepareFleet();">Lähetä aluksia</button>
-          <div id="preparefleet" class="hide">
-            <h4>Lähetä aluksia</h4>
-            <p><strong>Lähtöplaneetta:</strong> <span class="departurePlanet"></span></p>
-            <p class="selectDestination show">Valitse määränpää</p>
-            <p class="destination hide"><strong>Valittu määränpää:</strong><span class="destinationPlanet"></span></p>
-            <submit class="button tiny">Lähetä!</submit>
-          </div>
+          <button class="button tiny" onclick="sendShipsFromPlanet();">Lähetä aluksia</button>
+        </div>
+        <div id="preparefleet" class="hide">
+          <h4>Lähetä aluksia</h4>
+          <p class="selectDeparture hide">Valitse lähtöplaneetta klikkaamalla sitä</p>
+          <p class="departure show"><strong>Lähtöplaneetta:</strong> <span class="departurePlanet"></span></p>
+          <submit class="button tiny continueButton hide" onclick="continueButtonPressed();">Valitse määränpää</submit>
+          <p class="selectDestination show">Valitse määränpää klikkaamalla planeettaa</p>
+          <p class="destination hide"><strong>Valittu määränpää:</strong> <span class="destinationPlanet"></span></p>
+          <submit class="button tiny" onclick="launchButtonPressed();">Lähetä!</submit>
+          <p><a href="#" onclick="launchCanceled();">Peruuta</a></p>
         </div>
       </div>
     </div>

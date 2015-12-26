@@ -108,7 +108,7 @@ function drawPlanet(planetId, planet) {
   + '<b>Name:</b> ' + planet.name + '<br /><b>Ships:</b> ' + planet.shipsAmount + '<br /><b>Kill percent:</b> ' + planet.killPercent
   + '">'
   + '<img src="img/planet1.png"'
-  + '" onclick="selectPlanet(\''+planetId+'\')" /></span>')
+  + '" onclick="planetClicked(\''+planetId+'\')" /></span>')
   .addClass("planet id-" + planetId)
 
   selectedPlanets = turnData.planetSelection.selectedPlanets;
@@ -138,11 +138,7 @@ function showPlanetInfo(planetId) {
   $( "#planetinfo .killPercent" ).html(konquestData.planets[planetId].killPercent);
   $( "#planetinfo .productionRate" ).html(konquestData.planets[planetId].productionRate);
   $( "#planetinfo .ships" ).html(konquestData.planets[planetId].shipsAmount);
-  $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name);
-}
-
-function prepareFleet(planetId) {
-  $( "#preparefleet").toggle();
+  $( "#preparefleet .departure").hide();
 }
 
 //TODO: Fleet launching needs a gui and maybe some helper functions also.
@@ -166,24 +162,140 @@ function backgroundStuff() {
 //Maybe we should group all the helper functions here? Like Toggle elements,
 //button handlers etc. Not sure if there will be many.
 
-function selectPlanet(planetId) {
-  if(turnData.planetSelection.launchingFleet == true) {
-    //launching fleet
+function planetClicked(planetId) {
+  if(turnData.planetSelection.launchingFleet) {
+    //launching a fleet
+    if(konquestData.planets[planetId].selected) {
+      //Already selected. Do nothing.
+    } else {
+      selectPlanet(planetId, true);
+      prepareFleet(planetId);
+    }
   } else {
-      if (turnData.planetSelection.selectedPlanets.departureId == planetId) {
+      //just clicking on a canvas
+    if(konquestData.planets[planetId].selected) {
         // unselect
-        turnData.planetSelection.selectedPlanets.departureId = null;
-        showPlanetInfo();
-        drawPlanet(planetId);
+        selectPlanet(planetId, false);
+        showPlanetInfo(); // hide planet info
       } else {
         //select first
         unselectAllPlanets();
+
+        selectPlanet(planetId, true);
         turnData.planetSelection.selectedPlanets.departureId = planetId;
         showPlanetInfo(planetId);
-        drawPlanet(planetId);
     }
   }
 }
+
+function selectPlanet(planetId, select) {
+
+  if (select) {
+    $( "#spacegrid .id-" + planetId).addClass("selected");
+    konquestData.planets[planetId].selected = true;
+  } else {
+    $( "#spacegrid .id-" + planetId).removeClass("selected");
+    konquestData.planets[planetId].selected = false;
+  }
+}
+
 function unselectAllPlanets() {
-  $( "#spacegrid .planet").removeClass("selected");
+  $( "#spacegrid .planet" ).removeClass("selected");
+  konquestData.planets.forEach(function(planet) {
+    planet.selected = false;
+  })
+}
+
+function sendShips() {
+  turnData.planetSelection.phase = 0;
+  prepareFleet();
+}
+
+function continueButtonPressed() {
+  turnData.planetSelection.phase = 2;
+  $( "#preparefleet .selectDestination").show();
+  $( "#preparefleet .destination").hide();
+}
+
+function sendShipsFromPlanet() {
+  var departureId = turnData.planetSelection.selectedPlanets.departureId;
+  $( "#preparefleet .departurePlanet").html(konquestData.planets[departureId].name);
+  turnData.planetSelection.phase = 2;
+  prepareFleet();
+}
+
+function launchButtonPressed() {
+  turnData.planetSelection.phase = 3;
+  prepareFleet();
+}
+
+function launchCanceled() {
+  turnData.planetSelection.phase = 4;
+  prepareFleet();
+}
+
+function prepareFleet(planetId) {
+  switch(turnData.planetSelection.phase) {
+    case null:
+      //nothing to do!
+      break;
+    case 0:
+      //prepare!
+
+      turnData.planetSelection.launchingFleet = true;
+
+      $( "#preparefleet").show();
+      $( "#preparefleet .selectDeparture").show();
+      $( "#preparefleet .continueButton").hide();
+      $( "#preparefleet .departure").hide();
+      $( "#preparefleet .selectDestination").hide();
+      $( "#preparefleet .destination").hide();
+
+      turnData.planetSelection.phase = 1;
+      break;
+    case 1:
+      //Select A
+
+      //Changing departure
+      oldSelected = turnData.planetSelection.selectedPlanets.departureId;
+      turnData.planetSelection.selectedPlanets.departureId = planetId;
+      selectPlanet(oldSelected, false);
+      selectPlanet(planetId, true);
+
+      $( "#preparefleet .selectDeparture").hide();
+      $( "#preparefleet .departure").show();
+      $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name);
+      $( "#preparefleet .continueButton").show();
+      break;
+    case 2:
+      //Select B
+      turnData.planetSelection.launchingFleet = true;
+      $( "#preparefleet").show();
+
+      $( "#preparefleet .selectDeparture").hide();
+      $( "#preparefleet .departure").show();
+      $( "#preparefleet .continueButton").hide();
+      $( "#preparefleet .selectDestination").hide();
+      $( "#preparefleet .destination").show();
+      $( "#preparefleet .destinationPlanet").html(konquestData.planets[planetId].name);
+
+      //Changing destination
+      oldSelected = turnData.planetSelection.selectedPlanets.destinationId;
+      turnData.planetSelection.selectedPlanets.destinationId = planetId;
+      selectPlanet(oldSelected, false);
+      selectPlanet(planetId, true);
+      break;
+    case 3:
+      //launch! and continue to cancel phase
+//       launchFleet(departureId, destinationId, playerId);
+    case 4:
+      //cancel
+      turnData.planetSelection.selectedPlanets.destinationId = null;
+      turnData.planetSelection.selectedPlanets.departureId = null;
+      turnData.planetSelection.launchingFleet = false;
+      $( "#preparefleet").hide();
+      unselectAllPlanets();
+      break;
+  }
+
 }
