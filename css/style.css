@@ -58,7 +58,9 @@ background: #ECEC3C;
   color: #ccc;
 }
 
-.has-tip {
+.has-tip,
+.has-tip:hover,
+.has-tip:active {
   border-bottom: none;
 }
 
