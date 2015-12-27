@@ -166,27 +166,27 @@ function prepareFleet(planetId) {
       break;
     case 0:
       //prepare!
-      
+
       turnData.planetSelection.launchingFleet = true;
-      
+
       $( "#preparefleet").show();
       $( "#preparefleet .selectDeparture").show();
       $( "#preparefleet .continueButton").hide();
       $( "#preparefleet .departure").hide();
       $( "#preparefleet .selectDestination").hide();
       $( "#preparefleet .destination").hide();
-      
+
       turnData.planetSelection.phase = 1;
       break;
     case 1:
       //Select A
-      
+
       //Changing departure
       oldSelected = turnData.planetSelection.selectedPlanets.departureId;
       turnData.planetSelection.selectedPlanets.departureId = planetId;
       selectPlanet(oldSelected, false);
       selectPlanet(planetId, true);
-      
+
       $( "#preparefleet .selectDeparture").hide();
       $( "#preparefleet .departure").show();
       $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name);
@@ -196,14 +196,14 @@ function prepareFleet(planetId) {
       //Select B
       turnData.planetSelection.launchingFleet = true;
       $( "#preparefleet").show();
-      
+
       $( "#preparefleet .selectDeparture").hide();
       $( "#preparefleet .departure").show();
       $( "#preparefleet .continueButton").hide();
       $( "#preparefleet .selectDestination").hide();
       $( "#preparefleet .destination").show();
       $( "#preparefleet .destinationPlanet").html(konquestData.planets[planetId].name);
-      
+
       //Changing destination
       oldSelected = turnData.planetSelection.selectedPlanets.destinationId;
       turnData.planetSelection.selectedPlanets.destinationId = planetId;

@@ -86,15 +86,15 @@
           <label>Alusten lukumäärä: <input type="number" id="shipsAmount"></input></label>
           <submit class="button tiny" onclick="launchButtonPressed();">Lähetä!</submit>
           <p><a href="#" onclick="launchCanceled();">Peruuta</a></p>
+          </div>
         </div>
-      </div>
-      <div class="small-12 large-2 columns end" id="sidebar">
-        <div id="playerinfo">
-          <h4>Pelaajat</h4>
-          <table id="playerinfoTable">
-          </table>
+        <div class="small-12 large-2 columns end" id="sidebar">
+          <div id="playerinfo">
+            <h4>Pelaajat</h4>
+            <table id="playerinfoTable">
+            </table>
+          </div>
         </div>
-      </div>
 
   <script src="js/vendor/jquery.js"></script>
   <script src="js/foundation.min.js"></script>
@@ -107,7 +107,6 @@
     $(document).foundation();
     drawGrid();
     //Load data
-
 //     var konquestData = {};
 //     var url = "https://heikkiket.kapsi.fi/"
 //             + "konquest-html5/php_server/"
