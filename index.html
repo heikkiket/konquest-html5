@@ -46,7 +46,7 @@
     </nav>
 
     <div class="row">
-      <div class="large-10 columns">
+      <div class="small-12 large-8 columns">
         <table cellspacing="0" cellpadding="0" id="spacegrid">
         </table>
         <div class="row">
@@ -54,22 +54,19 @@
         </div>
         <div class="row">
           <form name="tablecreator" action="" onsubmit="drawGrid(); return false;">
-            <div class="large-4 columns">
+            <div class="small-4 columns">
                 <input type="text" name="x" value="16" />
             </div>
-            <div class="large-4 columns">
+            <div class="small-4 columns">
                 <input type="text" name="y" value="16" />
             </div>
-            <div class="large-4 columns">
+            <div class="small-4 columns">
               <input class="button tiny" type="submit" value="generoi">
             </div>
           </form>
         </div>
       </div>
-      <div class="large-2 columns" id="statusdisplay">
-        <div id="request">
-<!--           <button class="button tiny" id="clearButton" onclick="drawGrid(); drawPlanets();">Get JSON</button> -->
-
+      <div class="small-12 large-2 columns" id="statusdisplay">
         <div id="planetinfo" class="hide">
           <h3>Planeetta: <span class="name"></span></h3>
           <ul>
@@ -86,11 +83,18 @@
           <submit class="button tiny continueButton hide" onclick="continueButtonPressed();">Valitse määränpää</submit>
           <p class="selectDestination show">Valitse määränpää klikkaamalla planeettaa</p>
           <p class="destination hide"><strong>Valittu määränpää:</strong> <span class="destinationPlanet"></span></p>
+          <label>Alusten lukumäärä: <input type="number" id="shipsAmount"></input></label>
           <submit class="button tiny" onclick="launchButtonPressed();">Lähetä!</submit>
           <p><a href="#" onclick="launchCanceled();">Peruuta</a></p>
         </div>
       </div>
-    </div>
+      <div class="small-12 large-2 columns end" id="sidebar">
+        <div id="playerinfo">
+          <h4>Pelaajat</h4>
+          <table id="playerinfoTable">
+          </table>
+        </div>
+      </div>
 
   <script src="js/vendor/jquery.js"></script>
   <script src="js/foundation.min.js"></script>
@@ -125,6 +129,7 @@
     }
 
     drawPlanets();
+    showPlayerInfo();
   </script>
 
 </body>

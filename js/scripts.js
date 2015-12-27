@@ -111,6 +111,10 @@ function drawPlanet(planetId, planet) {
   + '" onclick="planetClicked(\''+planetId+'\')" /></span>')
   .addClass("planet id-" + planetId)
 
+  if(planet.owner_id != null) {
+    cell.css("background-color", konquestData.players[planet.owner_id].colour)
+  }
+
   selectedPlanets = turnData.planetSelection.selectedPlanets;
   if(planetId == selectedPlanets.departureId || planetId == selectedPlanets.destinationId) {
     cell.addClass("selected");
@@ -128,7 +132,7 @@ function drawPlanet(planetId, planet) {
 
 function showPlanetInfo(planetId) {
   
-  if(planetId == null) {
+  if(planetId == false) {
     $( "#planetinfo").hide();
     return;
   }
@@ -141,11 +145,86 @@ function showPlanetInfo(planetId) {
   $( "#preparefleet .departure").hide();
 }
 
+function showPlayerInfo() {
+  konquestData.players.forEach(function(player) {
+    playerinfo += "<tr><td style='background-color:" + player.colour + ";'></td><td>" + player.name + "</td></tr>";
+  })
+  $( "#playerinfoTable").html(playerinfo);
+}
+
 //TODO: Fleet launching needs a gui and maybe some helper functions also.
 function launchFleet(planetA, planetB, player)
 {
   // TODO: This function launches a fleet from planet A to planet B,
   // controlled by player.
+}
+
+function prepareFleet(planetId) {
+  switch(turnData.planetSelection.phase) {
+    case null:
+      //nothing to do!
+      break;
+    case 0:
+      //prepare!
+      
+      turnData.planetSelection.launchingFleet = true;
+      
+      $( "#preparefleet").show();
+      $( "#preparefleet .selectDeparture").show();
+      $( "#preparefleet .continueButton").hide();
+      $( "#preparefleet .departure").hide();
+      $( "#preparefleet .selectDestination").hide();
+      $( "#preparefleet .destination").hide();
+      
+      turnData.planetSelection.phase = 1;
+      break;
+    case 1:
+      //Select A
+      
+      //Changing departure
+      oldSelected = turnData.planetSelection.selectedPlanets.departureId;
+      turnData.planetSelection.selectedPlanets.departureId = planetId;
+      selectPlanet(oldSelected, false);
+      selectPlanet(planetId, true);
+      
+      $( "#preparefleet .selectDeparture").hide();
+      $( "#preparefleet .departure").show();
+      $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name);
+      $( "#preparefleet .continueButton").show();
+      break;
+    case 2:
+      //Select B
+      turnData.planetSelection.launchingFleet = true;
+      $( "#preparefleet").show();
+      
+      $( "#preparefleet .selectDeparture").hide();
+      $( "#preparefleet .departure").show();
+      $( "#preparefleet .continueButton").hide();
+      $( "#preparefleet .selectDestination").hide();
+      $( "#preparefleet .destination").show();
+      $( "#preparefleet .destinationPlanet").html(konquestData.planets[planetId].name);
+      
+      //Changing destination
+      oldSelected = turnData.planetSelection.selectedPlanets.destinationId;
+      turnData.planetSelection.selectedPlanets.destinationId = planetId;
+      selectPlanet(oldSelected, false);
+      selectPlanet(planetId, true);
+      break;
+    case 3:
+      //launch! and continue to cancel phase
+      //       launchFleet(departureId, destinationId, playerId);
+    case 4:
+      //cancel
+      turnData.planetSelection.selectedPlanets.destinationId = null;
+      turnData.planetSelection.selectedPlanets.departureId = null;
+      turnData.planetSelection.launchingFleet = false;
+      $( "#preparefleet #shipsAmount").val(0);
+      $( "#preparefleet").hide();
+      showPlanetInfo(false);
+      unselectAllPlanets();
+      break;
+  }
+  
 }
 
 function showStandings()
@@ -160,7 +239,7 @@ function backgroundStuff() {
 //------------------- GUI helpers ------------------------------------
 
 //Maybe we should group all the helper functions here? Like Toggle elements,
-//button handlers etc. Not sure if there will be many.
+//button handlers etc.
 
 function planetClicked(planetId) {
   if(turnData.planetSelection.launchingFleet) {
@@ -176,7 +255,7 @@ function planetClicked(planetId) {
     if(konquestData.planets[planetId].selected) {
         // unselect
         selectPlanet(planetId, false);
-        showPlanetInfo(); // hide planet info
+        showPlanetInfo(false); // hide planet info
       } else {
         //select first
         unselectAllPlanets();
@@ -232,70 +311,4 @@ function launchButtonPressed() {
 function launchCanceled() {
   turnData.planetSelection.phase = 4;
   prepareFleet();
-}
-
-function prepareFleet(planetId) {
-  switch(turnData.planetSelection.phase) {
-    case null:
-      //nothing to do!
-      break;
-    case 0:
-      //prepare!
-
-      turnData.planetSelection.launchingFleet = true;
-
-      $( "#preparefleet").show();
-      $( "#preparefleet .selectDeparture").show();
-      $( "#preparefleet .continueButton").hide();
-      $( "#preparefleet .departure").hide();
-      $( "#preparefleet .selectDestination").hide();
-      $( "#preparefleet .destination").hide();
-
-      turnData.planetSelection.phase = 1;
-      break;
-    case 1:
-      //Select A
-
-      //Changing departure
-      oldSelected = turnData.planetSelection.selectedPlanets.departureId;
-      turnData.planetSelection.selectedPlanets.departureId = planetId;
-      selectPlanet(oldSelected, false);
-      selectPlanet(planetId, true);
-
-      $( "#preparefleet .selectDeparture").hide();
-      $( "#preparefleet .departure").show();
-      $( "#preparefleet .departurePlanet").html(konquestData.planets[planetId].name);
-      $( "#preparefleet .continueButton").show();
-      break;
-    case 2:
-      //Select B
-      turnData.planetSelection.launchingFleet = true;
-      $( "#preparefleet").show();
-
-      $( "#preparefleet .selectDeparture").hide();
-      $( "#preparefleet .departure").show();
-      $( "#preparefleet .continueButton").hide();
-      $( "#preparefleet .selectDestination").hide();
-      $( "#preparefleet .destination").show();
-      $( "#preparefleet .destinationPlanet").html(konquestData.planets[planetId].name);
-
-      //Changing destination
-      oldSelected = turnData.planetSelection.selectedPlanets.destinationId;
-      turnData.planetSelection.selectedPlanets.destinationId = planetId;
-      selectPlanet(oldSelected, false);
-      selectPlanet(planetId, true);
-      break;
-    case 3:
-      //launch! and continue to cancel phase
-//       launchFleet(departureId, destinationId, playerId);
-    case 4:
-      //cancel
-      turnData.planetSelection.selectedPlanets.destinationId = null;
-      turnData.planetSelection.selectedPlanets.departureId = null;
-      turnData.planetSelection.launchingFleet = false;
-      $( "#preparefleet").hide();
-      unselectAllPlanets();
-      break;
-  }
-
 }
